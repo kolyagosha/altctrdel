@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alt Ctrl Del - Digital Alphabet Poetry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0f0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+            margin-bottom: 10px;
+            letter-spacing: 10px;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #0d0;
+            text-shadow: 0 0 5px #0f0;
+            margin-top: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .letter-card {
+            background: rgba(0, 40, 0, 0.8);
+            border: 2px solid #0f0;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #0f0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 40px rgba(0, 255, 0, 0.5);
+            border-color: #0ff;
+            background: rgba(0, 60, 0, 0.9);
+        }
+
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .letter-card:hover::before {
+            left: 100%;
+        }
+
+        .letter-title {
+            font-size: 3em;
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .letter-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #0f0;
+            margin-bottom: 15px;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .letter-preview {
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: center;
+            color: #0f0;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 2px solid #0f0;
+            background: rgba(0, 20, 0, 0.9);
+            margin-top: auto;
+        }
+
+        .footer-text {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        .footer-tagline {
+            font-size: 0.95em;
+            color: #0d0;
+            font-style: italic;
+        }
+
+        @media (max-width: 968px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            h1 {
+                font-size: 2.5em;
+                letter-spacing: 5px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>ALT CTRL DEL</h1>
+            <p class="subtitle">[ Digital Alphabet Poetry ]</p>
+        </header>
+
+        <div class="grid">
+            <a href="a.html" class="letter-card">
+                <div class="letter-title">A</div>
+                <img src="images/a.jpg" alt="Avatar" class="letter-image">
+                <p class="letter-preview">A is for Avatar, my digital twin...</p>
+            </a>
+
+            <a href="b.html" class="letter-card">
+                <div class="letter-title">B</div>
+                <img src="images/b.jpg" alt="Blank" class="letter-image">
+                <p class="letter-preview">B is for Blank, the stare in the night...</p>
+            </a>
+
+            <a href="c.html" class="letter-card">
+                <div class="letter-title">C</div>
+                <img src="images/c.jpg" alt="Connection" class="letter-image">
+                <p class="letter-preview">C is for Connection, a fiber so grand...</p>
+            </a>
+
+            <a href="d.html" class="letter-card">
+                <div class="letter-title">D</div>
+                <img src="images/d.jpg" alt="Default" class="letter-image">
+                <p class="letter-preview">D is for Default, a screen in my face...</p>
+            </a>
+
+            <a href="e.html" class="letter-card">
+                <div class="letter-title">E</div>
+                <img src="images/e.jpg" alt="Emoji" class="letter-image">
+                <p class="letter-preview">E is for Emoji, my face's only friend...</p>
+            </a>
+
+            <a href="f.html" class="letter-card">
+                <div class="letter-title">F</div>
+                <img src="images/f.jpg" alt="Filter" class="letter-image">
+                <p class="letter-preview">F is for Filter, my face in a mask...</p>
+            </a>
+
+            <a href="g.html" class="letter-card">
+                <div class="letter-title">G</div>
+                <img src="images/g.jpg" alt="Game" class="letter-image">
+                <p class="letter-preview">G is for Game, with points and a score...</p>
+            </a>
+
+            <a href="h.html" class="letter-card">
+                <div class="letter-title">H</div>
+                <img src="images/h.jpg" alt="Heart" class="letter-image">
+                <p class="letter-preview">H is for Heart, a tap on the screen...</p>
+            </a>
+
+            <a href="i.html" class="letter-card">
+                <div class="letter-title">I</div>
+                <img src="images/i.jpg" alt="Isolated" class="letter-image">
+                <p class="letter-preview">I is for Isolated, in my digitalDen...</p>
+            </a>
+
+            <a href="j.html" class="letter-card">
+                <div class="letter-title">J</div>
+                <img src="images/j.jpg" alt="Judgment" class="letter-image">
+                <p class="letter-preview">J is for Judgment, a click and a swipe...</p>
+            </a>
+
+            <a href="k.html" class="letter-card">
+                <div class="letter-title">K</div>
+                <img src="images/k.jpg" alt="Keyboard" class="letter-image">
+                <p class="letter-preview">K is for Keyboard, my weapon of choice...</p>
+            </a>
+
+            <a href="l.html" class="letter-card">
+                <div class="letter-title">L</div>
+                <img src="images/l.jpg" alt="Like" class="letter-image">
+                <p class="letter-preview">L is for Like, my digital gold...</p>
+            </a>
+
+            <a href="m.html" class="letter-card">
+                <div class="letter-title">M</div>
+                <img src="images/m.jpg" alt="Meme" class="letter-image">
+                <p class="letter-preview">M is for Meme, my daily new speech...</p>
+            </a>
+
+            <a href="n.html" class="letter-card">
+                <div class="letter-title">N</div>
+                <img src="images/n.jpg" alt="Name" class="letter-image">
+                <p class="letter-preview">N is for Name, a cool silly tag...</p>
+            </a>
+
+            <a href="o.html" class="letter-card">
+                <div class="letter-title">O</div>
+                <img src="images/o.jpg" alt="Output" class="letter-image">
+                <p class="letter-preview">O is for Output, I'm typing so fast...</p>
+            </a>
+
+            <a href="p.html" class="letter-card">
+                <div class="letter-title">P</div>
+                <img src="images/p.jpg" alt="Profile" class="letter-image">
+                <p class="letter-preview">P is for Profile, a perfect, new me...</p>
+            </a>
+
+            <a href="q.html" class="letter-card">
+                <div class="letter-title">Q</div>
+                <img src="images/q.jpg" alt="Question" class="letter-image">
+                <p class="letter-preview">Q is for Question, I type in my plea...</p>
+            </a>
+
+            <a href="r.html" class="letter-card">
+                <div class="letter-title">R</div>
+                <img src="images/r.jpg" alt="Reason" class="letter-image">
+                <p class="letter-preview">R is for Reason, a relic of old...</p>
+            </a>
+
+            <a href="s.html" class="letter-card">
+                <div class="letter-title">S</div>
+                <img src="images/s.jpg" alt="Selfie" class="letter-image">
+                <p class="letter-preview">S is for Selfie, my face in full view...</p>
+            </a>
+
+            <a href="t.html" class="letter-card">
+                <div class="letter-title">T</div>
+                <img src="images/t.jpg" alt="Think" class="letter-image">
+                <p class="letter-preview">T is for Think? No time for that now!</p>
+            </a>
+
+            <a href="u.html" class="letter-card">
+                <div class="letter-title">U</div>
+                <img src="images/u.jpg" alt="User" class="letter-image">
+                <p class="letter-preview">U is for User, a number, a dot...</p>
+            </a>
+
+            <a href="v.html" class="letter-card">
+                <div class="letter-title">V</div>
+                <img src="images/v.jpg" alt="Viral" class="letter-image">
+                <p class="letter-preview">V is for Viral, a dream in my head...</p>
+            </a>
+
+            <a href="w.html" class="letter-card">
+                <div class="letter-title">W</div>
+                <img src="images/w.jpg" alt="Watch" class="letter-image">
+                <p class="letter-preview">W is for Watch, I'm glued to the screen...</p>
+            </a>
+
+            <a href="xyz.html" class="letter-card">
+                <div class="letter-title">XYZ</div>
+                <img src="images/xyz.jpg" alt="XYZ" class="letter-image">
+                <p class="letter-preview">X, Y, Z is for .XYZ – the alphabet's end...</p>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p class="footer-text">hai-guys.space presents altctrdel.xyz</p>
+        <p class="footer-tagline">Enjoy... Follow us for more</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
