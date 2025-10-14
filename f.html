@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F - Filter | Alt Ctrl Del</title>
+    <meta name="description" content="F is for Filter, my face in a mask - Digital Alphabet Poetry">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0f0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #0f0;
+        }
+
+        .nav-link {
+            color: #0f0;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border: 1px solid #0f0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .nav-home {
+            font-size: 1.3em;
+            font-weight: bold;
+            border: 2px solid #0f0;
+        }
+
+        main {
+            background: rgba(0, 40, 0, 0.8);
+            border: 2px solid #0f0;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .letter-title {
+            font-size: 4em;
+            color: #0ff;
+            text-shadow: 0 0 20px #0ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .letter-image {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+            margin: 0 auto 40px;
+            border: 2px solid #0f0;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+        }
+
+        .poem {
+            font-size: 1.2em;
+            line-height: 2;
+            text-align: left;
+            white-space: pre-line;
+            margin-bottom: 40px;
+        }
+
+        .share-section {
+            border-top: 1px solid #0f0;
+            padding-top: 30px;
+            text-align: center;
+        }
+
+        .share-title {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #0ff;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 12px 24px;
+            border: 1px solid #0f0;
+            background: rgba(0, 60, 0, 0.5);
+            color: #0f0;
+            text-decoration: none;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .share-btn:hover {
+            background: #0f0;
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.5);
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 2px solid #0f0;
+            background: rgba(0, 20, 0, 0.9);
+            margin-top: auto;
+        }
+
+        .footer-text {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #0f0;
+        }
+
+        .footer-tagline {
+            font-size: 0.95em;
+            color: #0d0;
+            font-style: italic;
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0f0;
+            color: #000;
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 25px;
+            }
+            .letter-title {
+                font-size: 3em;
+            }
+            .poem {
+                font-size: 1em;
+            }
+            nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .share-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+
+    <div class="copy-notification" id="copyNotif">Link copied!</div>
+
+    <div class="container">
+        <nav>
+            <a href="e.html" class="nav-link">← Previous</a>
+            <a href="index.html" class="nav-link nav-home">HOME</a>
+            <a href="g.html" class="nav-link">Next →</a>
+        </nav>
+
+        <main>
+            <h1 class="letter-title">F</h1>
+            
+            <img src="images/F.jpg" alt="F is for Filter" class="letter-image">
+            
+            <div class="poem">F is for Filter, my face in a mask, 
+To look like a star, a demanding new task. 
+My eyes are too big, my skin is too bright, 
+Is there anyone real, in this digital light? </div>
+
+            <div class="share-section">
+                <h2 class="share-title">Share This</h2>
+                <div class="share-buttons">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://altctrdel.xyz/a.html" target="_blank" class="share-btn">Facebook</a>
+                    <a href="https://twitter.com/intent/tweet?url=https://altctrdel.xyz/a.html&text=A%20is%20for%20Avatar%20-%20Alt%20Ctrl%20Del" target="_blank" class="share-btn">Twitter</a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://altctrdel.xyz/a.html" target="_blank" class="share-btn">LinkedIn</a>
+                    <button onclick="copyLink()" class="share-btn">Copy Link</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p class="footer-text">hai-guys.space presents altctrdel.xyz</p>
+        <p class="footer-tagline">Enjoy... Follow us for more</p>
+    </footer>
+
+    <script>
+        // Matrix effect
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Copy link function
+        function copyLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                const notif = document.getElementById('copyNotif');
+                notif.style.display = 'block';
+                setTimeout(() => {
+                    notif.style.display = 'none';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
