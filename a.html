@@ -20,6 +20,20 @@
             padding: 0;
             box-sizing: border-box;
         }
+        /* Эффект глитча при наведении на картинку */
+img:hover {
+  animation: glitch-anim 0.3s infinite;
+  filter: hue-rotate(90deg) contrast(1.2); /* Немного меняем цвета */
+}
+
+@keyframes glitch-anim {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
 
         body {
             font-family: 'Courier New', monospace;
@@ -312,6 +326,7 @@ Just pixels and likes, year after year!</div>
 </body>
 
 </html>
+
 
 
 
