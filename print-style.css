@@ -1,0 +1,72 @@
+/* Специальный файл для синхронизации всех карточек */
+
+@media print {
+    @page {
+        size: 148mm 105mm;
+        margin: 0;
+    }
+
+    /* Убираем лишний шум */
+    nav, .share-section, footer, #matrix-bg, .copy-notification {
+        display: none !important;
+    }
+
+    body {
+        background: #000 !important;
+        -webkit-print-color-adjust: exact;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+
+    /* Перестраиваем main под горизонтальную карту */
+    main {
+        width: 148mm;
+        height: 105mm;
+        margin: 0 !important;
+        padding: 8mm 12mm !important;
+        border: none !important;
+        background: #000 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    /* Левая часть: Буква и картинка */
+    .letter-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .letter-title {
+        font-size: 3em !important;
+        margin-bottom: 5px !important;
+        text-align: center;
+    }
+
+    .letter-image {
+        max-width: 100% !important;
+        max-height: 55mm !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Правая часть: Стихотворение */
+    .poem {
+        flex: 1.2;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+        margin: 0 !important;
+        text-align: left;
+        color: #0f0 !important;
+    }
+}
