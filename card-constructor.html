@@ -17,260 +17,66 @@
     --radius: 12px;
     --radius-sm: 8px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; min-height: 100vh; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Courier New', monospace;
-    min-height: 100vh;
-    padding: 0;
-  }
+  header { border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem; }
+  .logo-text { font-size: 1.1rem; letter-spacing: 0.15em; color: var(--accent); font-weight: bold; }
+  .logo-sub  { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; }
 
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 1.5rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
+  .main { display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 73px); }
 
-  .logo-text {
-    font-size: 1.1rem;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    font-weight: bold;
-  }
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; overflow-y: auto; }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .field-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .field-label { font-size: 0.75rem; color: var(--muted); }
 
-  .logo-sub {
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
-
-  .main {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 0;
-    min-height: calc(100vh - 73px);
-  }
-
-  .sidebar {
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    overflow-y: auto;
-  }
-
-  .section-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
-  .field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .field-label {
-    font-size: 0.75rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  input[type="text"] {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.85rem;
-    padding: 0.6rem 0.8rem;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
+  input[type="text"] { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.6rem 0.8rem; width: 100%; outline: none; transition: border-color 0.2s; }
   input[type="text"]:focus { border-color: var(--accent); }
+  select { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.6rem 0.8rem; width: 100%; outline: none; cursor: pointer; }
+  .color-row { display: grid; grid-template-columns: 44px 1fr; gap: 8px; align-items: center; }
+  input[type="color"] { width: 44px; height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface2); cursor: pointer; padding: 3px; }
+  .slider-row { display: flex; align-items: center; gap: 10px; }
+  input[type="range"] { flex: 1; accent-color: var(--accent); cursor: pointer; }
+  .slider-val { font-size: 0.8rem; color: var(--accent); min-width: 36px; text-align: right; }
 
-  select {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.85rem;
-    padding: 0.6rem 0.8rem;
-    width: 100%;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .color-row {
-    display: grid;
-    grid-template-columns: 44px 1fr;
-    gap: 8px;
-    align-items: center;
-  }
-
-  input[type="color"] {
-    width: 44px;
-    height: 38px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--surface2);
-    cursor: pointer;
-    padding: 3px;
-  }
-
-  .slider-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  input[type="range"] {
-    flex: 1;
-    accent-color: var(--accent);
-    cursor: pointer;
-  }
-
-  .slider-val {
-    font-size: 0.8rem;
-    color: var(--accent);
-    min-width: 32px;
-    text-align: right;
-  }
-
-  .upload-zone {
-    border: 1.5px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
-  }
-
-  .upload-zone:hover {
-    border-color: var(--accent);
-    background: rgba(200,241,53,0.03);
-  }
-
+  .upload-zone { border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 1.1rem; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .upload-zone:hover { border-color: var(--accent); background: rgba(200,241,53,0.03); }
   .upload-zone input { display: none; }
+  .upload-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+  .upload-text { font-size: 0.75rem; color: var(--muted); }
+  .upload-name { font-size: 0.7rem; color: var(--accent); margin-top: 0.3rem; word-break: break-all; }
 
-  .upload-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+  .divider { border: none; border-top: 1px solid var(--border); }
 
-  .upload-text {
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
+  .hint-box { background: var(--surface2); border-radius: var(--radius-sm); padding: 0.75rem; font-size: 0.72rem; color: var(--muted); line-height: 1.7; }
+  .hint-box span { color: var(--accent); }
 
-  .upload-name {
-    font-size: 0.72rem;
-    color: var(--accent);
-    margin-top: 0.3rem;
-    word-break: break-all;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 0;
-  }
-
-  .btn-print {
-    background: var(--accent);
-    color: #0e0e14;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: inherit;
-    font-size: 0.85rem;
-    font-weight: bold;
-    letter-spacing: 0.08em;
-    padding: 0.85rem 1rem;
-    cursor: pointer;
-    width: 100%;
-    text-transform: uppercase;
-    transition: background 0.2s, transform 0.1s;
-  }
-
+  .btn-print { background: var(--accent); color: #0e0e14; border: none; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.08em; padding: 0.85rem 1rem; cursor: pointer; width: 100%; text-transform: uppercase; transition: background 0.2s, transform 0.1s; }
   .btn-print:hover { background: var(--accent-dark); }
   .btn-print:active { transform: scale(0.98); }
-
-  .btn-svg {
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-family: inherit;
-    font-size: 0.78rem;
-    padding: 0.6rem 1rem;
-    cursor: pointer;
-    width: 100%;
-    letter-spacing: 0.05em;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
+  .btn-svg { background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.78rem; padding: 0.6rem 1rem; cursor: pointer; width: 100%; letter-spacing: 0.05em; transition: border-color 0.2s, color 0.2s; }
   .btn-svg:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-reset { background: transparent; color: var(--muted); border: none; font-family: inherit; font-size: 0.72rem; cursor: pointer; text-align: center; text-decoration: underline; padding: 0.3rem; }
 
-  .btn-reset {
-    background: transparent;
-    color: var(--muted);
-    border: none;
-    font-family: inherit;
-    font-size: 0.72rem;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: underline;
-    padding: 0.3rem;
-  }
+  .preview-area { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2.5rem 2rem; gap: 1.25rem; }
+  .preview-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
 
-  /* Preview area */
-  .preview-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 2rem;
-    background: var(--bg);
-    gap: 1.5rem;
-  }
-
-  .preview-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  /* The actual card preview — A6 ratio 148:105 */
   .card-shell {
-    width: min(520px, 100%);
+    width: min(560px, 100%);
     aspect-ratio: 148 / 105;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 32px 64px rgba(0,0,0,0.6);
+    user-select: none;
   }
 
   .card-canvas {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5%;
     position: relative;
+    overflow: hidden;
   }
 
   .card-pattern-svg {
@@ -281,97 +87,78 @@
     pointer-events: none;
   }
 
-  .card-logo-wrap {
-    position: relative;
-    z-index: 1;
+  /* DRAGGABLE LOGO */
+  #logoWrap {
+    position: absolute;
+    cursor: move;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #logoWrap.selected {
+    outline: 1.5px dashed rgba(200,241,53,0.8);
+    outline-offset: 2px;
+  }
+
+  #logoImg { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
+  #logoPlaceholder { font-size: 2.5rem; opacity: 0.2; pointer-events: none; }
+
+  #resizeHandle {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: se-resize;
+    z-index: 20;
+    display: none;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.4);
+  }
+  #logoWrap.selected #resizeHandle { display: block; }
+
+  /* BOTTOM TEXT — always pinned */
+  .card-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 4% 8% 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    width: 100%;
+    gap: 2px;
+    pointer-events: none;
+    z-index: 5;
   }
 
-  .card-logo-img {
-    object-fit: contain;
-    display: block;
-  }
+  .card-bar-name { font-weight: bold; text-align: center; letter-spacing: 0.06em; line-height: 1.2; }
+  .card-slogan   { text-align: center; opacity: 0.65; }
+  .card-url      { opacity: 0.28; letter-spacing: 0.1em; margin-top: 2px; }
 
-  .card-logo-placeholder {
-    opacity: 0.2;
-    font-size: 2rem;
-    line-height: 1;
-  }
-
-  .card-bar-name {
-    font-weight: bold;
-    text-align: center;
-    letter-spacing: 0.06em;
-    line-height: 1.2;
-    position: relative;
-    z-index: 1;
-    margin-top: 4px;
-  }
-
-  .card-slogan {
-    text-align: center;
-    opacity: 0.6;
-    position: relative;
-    z-index: 1;
-    margin-top: 2px;
-  }
-
-  .card-url {
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    letter-spacing: 0.12em;
-    opacity: 0.35;
-    z-index: 1;
-    white-space: nowrap;
-  }
-
-  .card-corner {
-    position: absolute;
-    opacity: 0.15;
-    z-index: 1;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-  }
-
+  .card-corner { position: absolute; opacity: 0.12; z-index: 5; font-size: 0.55rem; letter-spacing: 0.1em; pointer-events: none; }
   .card-corner.tl { top: 5%; left: 5%; }
   .card-corner.tr { top: 5%; right: 5%; }
 
-  .print-info {
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.8;
-    max-width: 420px;
-  }
-
+  .print-info { font-size: 0.7rem; color: var(--muted); text-align: center; line-height: 1.8; }
   .print-info span { color: var(--accent); }
-
-  /* Print styles */
-  @media print {
-    body { background: white; }
-    header, .sidebar, .preview-label, .print-info { display: none !important; }
-    .main { grid-template-columns: 1fr; }
-    .preview-area { padding: 0; justify-content: flex-start; }
-    .card-shell {
-      width: 148mm;
-      height: 105mm;
-      aspect-ratio: unset;
-      box-shadow: none;
-      border-radius: 4mm;
-      page-break-inside: avoid;
-    }
-  }
 
   @media (max-width: 760px) {
     .main { grid-template-columns: 1fr; }
     .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
-    .preview-area { padding: 2rem 1rem; }
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    header, .sidebar, .preview-label, .print-info, #resizeHandle { display: none !important; }
+    .main { grid-template-columns: 1fr; }
+    .preview-area { padding: 0; }
+    .card-shell { width: 148mm; height: 105mm; aspect-ratio: unset; box-shadow: none; border-radius: 4mm; }
+    #logoWrap { outline: none !important; }
+    .card-canvas { overflow: hidden; }
   }
 </style>
 </head>
@@ -386,25 +173,31 @@
 
 <div class="main">
 
-  <!-- SIDEBAR CONTROLS -->
   <aside class="sidebar">
 
     <div>
-      <div class="section-label">Your logo</div>
-      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('logoInput').click()">
+      <div class="section-label">Logo</div>
+      <div class="upload-zone" onclick="document.getElementById('logoInput').click()">
         <input type="file" id="logoInput" accept="image/*">
         <div class="upload-icon">⬆</div>
         <div class="upload-text">Click to upload logo</div>
-        <div class="upload-text" style="font-size:0.68rem; margin-top:2px;">PNG · JPG · SVG · transparent bg preferred</div>
+        <div class="upload-text" style="font-size:0.68rem;margin-top:2px;">PNG · JPG · SVG · transparent bg preferred</div>
         <div class="upload-name" id="uploadName"></div>
       </div>
+    </div>
+
+    <div class="hint-box">
+      <span>Drag</span> the logo anywhere on the card.<br>
+      <span>Green dot</span> (bottom-right) → drag to resize.<br>
+      Hold <span>Shift</span> while resizing to keep proportions.<br>
+      Click outside logo to deselect.
     </div>
 
     <hr class="divider">
 
     <div>
       <div class="section-label">Bar info</div>
-      <div style="display:flex; flex-direction:column; gap:0.75rem;">
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <div class="field-group">
           <div class="field-label">Bar / café name</div>
           <input type="text" id="barName" placeholder="e.g. The Analog Bar" maxlength="40">
@@ -420,19 +213,19 @@
 
     <div>
       <div class="section-label">Colors</div>
-      <div style="display:flex; flex-direction:column; gap:0.75rem;">
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <div class="field-group">
           <div class="field-label">Card background</div>
           <div class="color-row">
             <input type="color" id="bgColor" value="#1a1a2e">
-            <input type="text" id="bgHex" value="#1a1a2e" maxlength="7" placeholder="#1a1a2e">
+            <input type="text"  id="bgHex"   value="#1a1a2e" maxlength="7" placeholder="#1a1a2e">
           </div>
         </div>
         <div class="field-group">
           <div class="field-label">Text color</div>
           <div class="color-row">
             <input type="color" id="txtColor" value="#f0f0f0">
-            <input type="text" id="txtHex" value="#f0f0f0" maxlength="7" placeholder="#f0f0f0">
+            <input type="text"  id="txtHex"   value="#f0f0f0" maxlength="7" placeholder="#f0f0f0">
           </div>
         </div>
       </div>
@@ -442,7 +235,7 @@
 
     <div>
       <div class="section-label">Design</div>
-      <div style="display:flex; flex-direction:column; gap:0.75rem;">
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <div class="field-group">
           <div class="field-label">Background pattern</div>
           <select id="patternSelect">
@@ -456,16 +249,10 @@
           </select>
         </div>
         <div class="field-group">
-          <div class="field-label">Logo size — <span id="sizeLabel">55</span>%</div>
-          <div class="slider-row">
-            <input type="range" id="logoSize" min="15" max="85" value="55" step="5">
-            <div class="slider-val" id="sizeVal">55%</div>
-          </div>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Name size — <span id="nameLabel">M</span></div>
+          <div class="field-label">Name size</div>
           <div class="slider-row">
             <input type="range" id="nameSize" min="1" max="5" value="3" step="1">
+            <div class="slider-val" id="nameSizeVal">M</div>
           </div>
         </div>
       </div>
@@ -473,40 +260,44 @@
 
     <hr class="divider">
 
-    <div style="display:flex; flex-direction:column; gap:0.6rem;">
-      <button class="btn-print" onclick="window.print()">�쩩 Print card (A6)</button>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+      <button class="btn-print" onclick="window.print()">Print card (A6)</button>
       <button class="btn-svg" onclick="downloadSVG()">↓ Download SVG file</button>
       <button class="btn-reset" onclick="resetAll()">reset to defaults</button>
     </div>
 
   </aside>
 
-  <!-- PREVIEW -->
   <section class="preview-area">
-    <div class="preview-label">Live preview · A6 (148 × 105 mm)</div>
+    <div class="preview-label">drag logo freely · resize with green dot · A6 (148×105mm)</div>
 
     <div class="card-shell" id="cardShell">
       <div class="card-canvas" id="cardCanvas">
+
         <svg class="card-pattern-svg" id="patternSvg" viewBox="0 0 600 425" preserveAspectRatio="xMidYMid slice"></svg>
 
-        <div class="card-logo-wrap" id="logoWrap">
-          <div class="card-logo-placeholder" id="logoPlaceholder">◻</div>
-          <img class="card-logo-img" id="logoImg" style="display:none;" alt="logo">
+        <div id="logoWrap">
+          <div id="logoPlaceholder">◻</div>
+          <img id="logoImg" style="display:none;" alt="logo">
+          <div id="resizeHandle" title="Drag to resize"></div>
         </div>
 
-        <div class="card-bar-name" id="barNameEl"></div>
-        <div class="card-slogan" id="sloganEl"></div>
+        <div class="card-bottom">
+          <div class="card-bar-name" id="barNameEl"></div>
+          <div class="card-slogan"   id="sloganEl"></div>
+          <div class="card-url"      id="urlEl" style="font-size:0.5rem;">altctrdel.xyz</div>
+        </div>
 
         <div class="card-corner tl" id="cornerTL">ALT CTRL DEL</div>
         <div class="card-corner tr" id="cornerTR">ALT CTRL DEL</div>
-        <div class="card-url" id="urlEl">altctrdel.xyz</div>
+
       </div>
     </div>
 
     <div class="print-info">
       Print on <span>A4 paper</span>, cut to <span>A6 (148×105mm)</span>.<br>
-      4 cards fit per A4 sheet · use any home or office printer.<br>
-      For best results: matte photo paper or 200g/m² cardstock.
+      4 cards per A4 sheet · any home or office printer.<br>
+      Best results: matte photo paper or 200g/m² cardstock.
     </div>
   </section>
 
@@ -515,55 +306,179 @@
 <script>
 const $ = id => document.getElementById(id);
 
-const NAME_SIZES = ['0.7rem','0.9rem','1.1rem','1.4rem','1.8rem'];
+const NAME_SIZES  = ['0.65rem','0.82rem','1rem','1.3rem','1.7rem'];
 const NAME_LABELS = ['XS','S','M','L','XL'];
 
+const logoWrap     = $('logoWrap');
+const cardCanvas   = $('cardCanvas');
+const resizeHandle = $('resizeHandle');
+
+let logoW = 160, logoH = 90;
+let logoX = 0,   logoY = 0;
+let logoPlaced = false;
+let logoRatio  = 1;
+
+function setLogoPos() {
+  logoWrap.style.width  = logoW + 'px';
+  logoWrap.style.height = logoH + 'px';
+  logoWrap.style.left   = logoX + 'px';
+  logoWrap.style.top    = logoY + 'px';
+}
+
+function centerLogo() {
+  const r = cardCanvas.getBoundingClientRect();
+  logoW = Math.round(r.width * 0.44);
+  logoH = Math.round(logoW * logoRatio);
+  logoX = Math.round((r.width  - logoW) / 2);
+  logoY = Math.round((r.height - logoH) / 2 - r.height * 0.06);
+  setLogoPos();
+}
+
+/* ─ DRAG ─────────────────────────────────── */
+let dragging = false, dragOX = 0, dragOY = 0;
+
+logoWrap.addEventListener('mousedown', e => {
+  if (e.target === resizeHandle) return;
+  dragging = true;
+  dragOX = e.clientX - logoWrap.offsetLeft;
+  dragOY = e.clientY - logoWrap.offsetTop;
+  logoWrap.classList.add('selected');
+  e.preventDefault();
+});
+
+logoWrap.addEventListener('touchstart', e => {
+  if (e.target === resizeHandle) return;
+  dragging = true;
+  dragOX = e.touches[0].clientX - logoWrap.offsetLeft;
+  dragOY = e.touches[0].clientY - logoWrap.offsetTop;
+  logoWrap.classList.add('selected');
+}, { passive: true });
+
+document.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  const r = cardCanvas.getBoundingClientRect();
+  logoX = Math.min(Math.max(0, e.clientX - r.left - dragOX + logoWrap.offsetLeft), r.width  - logoW);
+  logoY = Math.min(Math.max(0, e.clientY - r.top  - dragOY + logoWrap.offsetTop),  r.height - logoH);
+
+  // simpler: use offsetLeft directly since logoWrap is inside cardCanvas
+  logoX = Math.min(Math.max(0, e.clientX - dragOX - r.left + r.left), r.width - logoW);
+  logoY = Math.min(Math.max(0, e.clientY - dragOY - r.top  + r.top),  r.height - logoH);
+
+  const newX = e.clientX - r.left - (dragOX - logoWrap.offsetLeft);
+  const newY = e.clientY - r.top  - (dragOY - logoWrap.offsetTop);
+  logoX = Math.min(Math.max(0, newX), r.width  - logoW);
+  logoY = Math.min(Math.max(0, newY), r.height - logoH);
+  setLogoPos();
+});
+
+document.addEventListener('touchmove', e => {
+  if (!dragging) return;
+  const r    = cardCanvas.getBoundingClientRect();
+  const newX = e.touches[0].clientX - r.left - (dragOX - logoWrap.offsetLeft);
+  const newY = e.touches[0].clientY - r.top  - (dragOY - logoWrap.offsetTop);
+  logoX = Math.min(Math.max(0, newX), r.width  - logoW);
+  logoY = Math.min(Math.max(0, newY), r.height - logoH);
+  setLogoPos();
+}, { passive: true });
+
+document.addEventListener('mouseup',  () => { dragging = false; });
+document.addEventListener('touchend', () => { dragging = false; });
+
+cardCanvas.addEventListener('mousedown', e => {
+  if (logoWrap.contains(e.target)) return;
+  logoWrap.classList.remove('selected');
+});
+
+/* ─ RESIZE ───────────────────────────────── */
+let resizing = false, resOX = 0, resOY = 0, resW0 = 0, resH0 = 0;
+
+resizeHandle.addEventListener('mousedown', e => {
+  resizing = true;
+  resOX = e.clientX;
+  resOY = e.clientY;
+  resW0 = logoW;
+  resH0 = logoH;
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+resizeHandle.addEventListener('touchstart', e => {
+  resizing = true;
+  resOX = e.touches[0].clientX;
+  resOY = e.touches[0].clientY;
+  resW0 = logoW;
+  resH0 = logoH;
+  e.stopPropagation();
+}, { passive: true });
+
+document.addEventListener('mousemove', e => {
+  if (!resizing) return;
+  const r  = cardCanvas.getBoundingClientRect();
+  const dx = e.clientX - resOX;
+  const dy = e.clientY - resOY;
+  if (e.shiftKey) {
+    const delta = Math.max(dx, dy);
+    logoW = Math.max(30, Math.min(r.width  - logoX, resW0 + delta));
+    logoH = Math.round(logoW * logoRatio);
+  } else {
+    logoW = Math.max(30, Math.min(r.width  - logoX, resW0 + dx));
+    logoH = Math.max(20, Math.min(r.height - logoY, resH0 + dy));
+  }
+  setLogoPos();
+});
+
+document.addEventListener('touchmove', e => {
+  if (!resizing) return;
+  const r  = cardCanvas.getBoundingClientRect();
+  const dx = e.touches[0].clientX - resOX;
+  const dy = e.touches[0].clientY - resOY;
+  logoW = Math.max(30, Math.min(r.width  - logoX, resW0 + dx));
+  logoH = Math.max(20, Math.min(r.height - logoY, resH0 + dy));
+  setLogoPos();
+}, { passive: true });
+
+document.addEventListener('mouseup',  () => { resizing = false; });
+document.addEventListener('touchend', () => { resizing = false; });
+
+/* ─ PREVIEW ──────────────────────────────── */
 function updatePreview() {
-  const bg    = $('bgColor').value;
-  const txt   = $('txtColor').value;
-  const name  = $('barName').value;
+  const bg     = $('bgColor').value;
+  const txt    = $('txtColor').value;
+  const name   = $('barName').value;
   const slogan = $('slogan').value;
-  const size  = parseInt($('logoSize').value);
-  const nSize = parseInt($('nameSize').value) - 1;
+  const nSize  = parseInt($('nameSize').value) - 1;
 
-  $('cardCanvas').style.background = bg;
+  cardCanvas.style.background = bg;
 
-  $('barNameEl').style.color = txt;
+  $('barNameEl').style.color    = txt;
   $('barNameEl').style.fontSize = NAME_SIZES[nSize];
-  $('barNameEl').textContent = name;
-  $('nameLabel').textContent = NAME_LABELS[nSize];
+  $('barNameEl').textContent    = name;
+  $('nameSizeVal').textContent  = NAME_LABELS[nSize];
 
-  $('sloganEl').style.color = txt;
-  $('sloganEl').style.fontSize = '0.6rem';
-  $('sloganEl').textContent = slogan;
+  $('sloganEl').style.color    = txt;
+  $('sloganEl').style.fontSize = '0.62rem';
+  $('sloganEl').textContent    = slogan;
 
-  $('urlEl').style.color = txt;
-  $('urlEl').style.fontSize = '0.55rem';
+  $('urlEl').style.color    = txt;
   $('cornerTL').style.color = txt;
   $('cornerTR').style.color = txt;
-
-  $('logoImg').style.maxWidth  = size + '%';
-  $('logoImg').style.maxHeight = Math.round(size * 0.55) + '%';
   $('logoPlaceholder').style.color = txt;
 
-  $('sizeLabel').textContent = size;
-  $('sizeVal').textContent   = size + '%';
   $('bgHex').value  = bg;
   $('txtHex').value = txt;
 
   drawPattern(bg, txt);
+  if (!logoPlaced) centerLogo();
 }
 
 function drawPattern(bg, txt) {
-  const p   = $('patternSelect').value;
+  const p = $('patternSelect').value;
   const svg = $('patternSvg');
   const W = 600, H = 425;
   let out = '';
-
   if (p === 'dots') {
-    for (let x = 0; x <= W; x += 20)
-      for (let y = 0; y <= H; y += 20)
-        out += `<circle cx="${x}" cy="${y}" r="1.4" fill="${txt}" opacity="0.09"/>`;
+    for (let x = 0; x <= W; x += 20) for (let y = 0; y <= H; y += 20)
+      out += `<circle cx="${x}" cy="${y}" r="1.4" fill="${txt}" opacity="0.09"/>`;
   } else if (p === 'grid') {
     for (let x = 0; x <= W; x += 30) out += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="${txt}" stroke-width="0.5" opacity="0.08"/>`;
     for (let y = 0; y <= H; y += 30) out += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${txt}" stroke-width="0.5" opacity="0.08"/>`;
@@ -592,39 +507,42 @@ function drawPattern(bg, txt) {
       }
     }
   }
-
   svg.innerHTML = out;
 }
 
-// Color sync
+/* ─ COLOR SYNC ───────────────────────────── */
 $('bgColor').oninput  = () => { $('bgHex').value  = $('bgColor').value;  updatePreview(); };
 $('txtColor').oninput = () => { $('txtHex').value = $('txtColor').value; updatePreview(); };
-
 $('bgHex').oninput  = () => { if(/^#[0-9a-fA-F]{6}$/.test($('bgHex').value))  { $('bgColor').value  = $('bgHex').value;  updatePreview(); } };
 $('txtHex').oninput = () => { if(/^#[0-9a-fA-F]{6}$/.test($('txtHex').value)) { $('txtColor').value = $('txtHex').value; updatePreview(); } };
-
-$('barName').oninput      = updatePreview;
-$('slogan').oninput       = updatePreview;
-$('logoSize').oninput     = updatePreview;
-$('nameSize').oninput     = updatePreview;
+$('barName').oninput        = updatePreview;
+$('slogan').oninput         = updatePreview;
+$('nameSize').oninput       = updatePreview;
 $('patternSelect').onchange = updatePreview;
 
-// Logo upload
+/* ─ LOGO UPLOAD ──────────────────────────── */
 $('logoInput').onchange = function(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
-    $('logoImg').src = ev.target.result;
-    $('logoImg').style.display = 'block';
-    $('logoPlaceholder').style.display = 'none';
-    $('uploadName').textContent = file.name;
-    updatePreview();
+    const img = new Image();
+    img.onload = () => {
+      logoRatio  = img.naturalHeight / img.naturalWidth;
+      $('logoImg').src = ev.target.result;
+      $('logoImg').style.display = 'block';
+      $('logoPlaceholder').style.display = 'none';
+      $('uploadName').textContent = file.name;
+      logoPlaced = false;
+      centerLogo();
+      logoWrap.classList.add('selected');
+    };
+    img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
 };
 
-// Reset
+/* ─ RESET ────────────────────────────────── */
 function resetAll() {
   $('barName').value = '';
   $('slogan').value  = '';
@@ -632,28 +550,37 @@ function resetAll() {
   $('txtColor').value = '#f0f0f0';
   $('bgHex').value    = '#1a1a2e';
   $('txtHex').value   = '#f0f0f0';
-  $('logoSize').value = 55;
   $('nameSize').value = 3;
   $('patternSelect').value = 'dots';
   $('logoImg').src = '';
   $('logoImg').style.display = 'none';
   $('logoPlaceholder').style.display = 'block';
   $('uploadName').textContent = '';
+  logoPlaced = false;
+  logoRatio  = 1;
+  logoWrap.classList.remove('selected');
   updatePreview();
 }
 
-// SVG Download
+/* ─ SVG DOWNLOAD ─────────────────────────── */
 function downloadSVG() {
-  const bg     = $('bgColor').value;
-  const txt    = $('txtColor').value;
-  const name   = $('barName').value || 'Your Bar';
-  const slogan = $('slogan').value;
-  const size   = parseInt($('logoSize').value);
-  const nSize  = parseInt($('nameSize').value) - 1;
+  const bg      = $('bgColor').value;
+  const txt     = $('txtColor').value;
+  const name    = $('barName').value || 'Your Bar';
+  const slogan  = $('slogan').value;
+  const nSize   = parseInt($('nameSize').value) - 1;
   const pattern = $('patternSelect').value;
   const logoSrc = ($('logoImg').style.display !== 'none') ? $('logoImg').src : null;
 
-  const W = 559, H = 397; // A6 in px at 96dpi roughly
+  const W = 559, H = 397;
+  const cardRect = cardCanvas.getBoundingClientRect();
+  const scaleX   = W / cardRect.width;
+  const scaleY   = H / cardRect.height;
+
+  const lx = Math.round(logoX * scaleX);
+  const ly = Math.round(logoY * scaleY);
+  const lw = Math.round(logoW * scaleX);
+  const lh = Math.round(logoH * scaleY);
 
   let patEl = '';
   if (pattern === 'dots') {
@@ -668,20 +595,12 @@ function downloadSVG() {
     for (let r = 20; r < 500; r += 35) patEl += `<circle cx="${W/2}" cy="${H/2}" r="${r}" fill="none" stroke="${txt}" stroke-width="0.7" opacity="0.08"/>`;
   }
 
-  const logoW  = Math.round(W * size / 100);
-  const logoH  = Math.round(logoW * 0.55);
-  const logoX  = (W - logoW) / 2;
-  const centerY = H / 2;
-  const logoY  = centerY - logoH / 2 - 24;
-
-  const fontSizes = [18,22,28,36,46];
+  const fontSizes = [16,20,26,34,44];
   const fs = fontSizes[nSize];
-  const nameY   = logoSrc ? (logoY + logoH + fs + 8) : (centerY + fs/2);
-  const sloganY = nameY + 18;
 
-  const logoEl   = logoSrc ? `<image href="${logoSrc}" x="${logoX}" y="${logoY}" width="${logoW}" height="${logoH}" preserveAspectRatio="xMidYMid meet"/>` : '';
-  const nameEl   = name   ? `<text x="${W/2}" y="${nameY}" text-anchor="middle" font-size="${fs}" font-weight="bold" fill="${txt}" font-family="'Courier New',monospace" letter-spacing="2">${name}</text>` : '';
-  const sloganEl = slogan ? `<text x="${W/2}" y="${sloganY}" text-anchor="middle" font-size="13" fill="${txt}" font-family="'Courier New',monospace" opacity="0.6">${slogan}</text>` : '';
+  const logoEl   = logoSrc ? `<image href="${logoSrc}" x="${lx}" y="${ly}" width="${lw}" height="${lh}" preserveAspectRatio="xMidYMid meet"/>` : '';
+  const nameEl   = name   ? `<text x="${W/2}" y="${H-50}" text-anchor="middle" font-size="${fs}" font-weight="bold" fill="${txt}" font-family="'Courier New',monospace" letter-spacing="2">${name}</text>` : '';
+  const sloganEl = slogan ? `<text x="${W/2}" y="${H-28}" text-anchor="middle" font-size="13" fill="${txt}" font-family="'Courier New',monospace" opacity="0.65">${slogan}</text>` : '';
 
   const svgOut = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -691,21 +610,23 @@ function downloadSVG() {
   ${logoEl}
   ${nameEl}
   ${sloganEl}
-  <text x="${W/2}" y="${H - 14}" text-anchor="middle" font-size="10" fill="${txt}" opacity="0.35" font-family="'Courier New',monospace" letter-spacing="3">altctrdel.xyz</text>
-  <text x="18" y="22" font-size="8" fill="${txt}" opacity="0.15" font-family="'Courier New',monospace" letter-spacing="2">ALT CTRL DEL</text>
-  <text x="${W - 18}" y="22" text-anchor="end" font-size="8" fill="${txt}" opacity="0.15" font-family="'Courier New',monospace" letter-spacing="2">ALT CTRL DEL</text>
+  <text x="${W/2}" y="${H-10}" text-anchor="middle" font-size="9" fill="${txt}" opacity="0.28" font-family="'Courier New',monospace" letter-spacing="3">altctrdel.xyz</text>
+  <text x="16" y="20" font-size="8" fill="${txt}" opacity="0.12" font-family="'Courier New',monospace" letter-spacing="2">ALT CTRL DEL</text>
+  <text x="${W-16}" y="20" text-anchor="end" font-size="8" fill="${txt}" opacity="0.12" font-family="'Courier New',monospace" letter-spacing="2">ALT CTRL DEL</text>
 </svg>`;
 
   const blob = new Blob([svgOut], { type: 'image/svg+xml' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = `altctrdel-card-back-${(name || 'bar').toLowerCase().replace(/\s+/g,'-')}.svg`;
+  a.download = `altctrdel-card-back-${name.toLowerCase().replace(/\s+/g,'-')}.svg`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
+/* ─ INIT ─────────────────────────────────── */
 updatePreview();
+window.addEventListener('resize', () => { if (!logoPlaced) centerLogo(); });
 </script>
 </body>
 </html>
