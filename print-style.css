@@ -70,3 +70,69 @@
         color: #0f0 !important;
     }
 }
+
+
+
+
+
+
+
+@media print {
+    @page {
+        size: 148mm 105mm;
+        margin: 0;
+    }
+
+    /* Прячем лишнее */
+    nav, .share-section, footer, #matrix-bg, .copy-notification {
+        display: none !important;
+    }
+
+    body {
+        background: #000 !important;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Делаем из main сетку: заголовок и фото слева, стих справа */
+    main {
+        width: 148mm;
+        height: 105mm;
+        margin: 0 !important;
+        padding: 8mm 12mm !important;
+        display: grid !important; /* Включаем сетку */
+        grid-template-columns: 45% 55% !important; /* Две колонки */
+        grid-template-areas: 
+            "title poem"
+            "image poem" !important;
+        align-items: center;
+        gap: 15px !important;
+        background: #000 !important;
+        border: none !important;
+    }
+
+    /* Назначаем элементам их места в сетке */
+    .letter-title { 
+        grid-area: title; 
+        font-size: 3em !important; 
+        margin: 0 !important;
+        align-self: end; /* Прижимаем заголовок вниз к картинке */
+    }
+
+    .letter-image { 
+        grid-area: image; 
+        max-width: 100% !important; 
+        max-height: 55mm !important; 
+        margin: 0 !important;
+        align-self: start; /* Прижимаем картинку вверх к заголовку */
+    }
+
+    .poem { 
+        grid-area: poem; 
+        font-size: 11pt !important; 
+        line-height: 1.5 !important;
+        margin: 0 !important;
+        white-space: pre-wrap !important;
+    }
+}
