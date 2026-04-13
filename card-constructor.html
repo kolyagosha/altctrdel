@@ -513,8 +513,8 @@ function drawPattern(bg, txt) {
 /* ─ COLOR SYNC ───────────────────────────── */
 $('bgColor').oninput  = () => { $('bgHex').value  = $('bgColor').value;  updatePreview(); };
 $('txtColor').oninput = () => { $('txtHex').value = $('txtColor').value; updatePreview(); };
-$('bgHex').oninput  = () => { if(/^#[0-9a-fA-F]{6}$/.test($('bgHex').value))  { $('bgColor').value  = $('bgHex').value;  updatePreview(); } };
-$('txtHex').oninput = () => { if(/^#[0-9a-fA-F]{6}$/.test($('txtHex').value)) { $('txtColor').value = $('txtHex').value; updatePreview(); } };
+$('bgHex').oninput  = () => { if(/^#[0-9a-fA-F]{6}$/.test($('bgHex').value))  { $('bgColor').value  = $('bgHex').value.toLowerCase();  updatePreview(); } };
+$('txtHex').oninput = () => { if(/^#[0-9a-fA-F]{6}$/.test($('txtHex').value)) { $('txtColor').value = $('txtHex').value.toLowerCase(); updatePreview(); } };
 $('barName').oninput        = updatePreview;
 $('slogan').oninput         = updatePreview;
 $('nameSize').oninput       = updatePreview;
