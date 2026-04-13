@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALT CTRL DEL — How to Play</title>
+<style>
+  :root {
+    --bg: #0e0e14;
+    --surface: #16161f;
+    --surface2: #1e1e2a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0f0f0;
+    --muted: #888;
+    --accent: #c8f135;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .logo-text { font-size: 1.1rem; letter-spacing: 0.15em; color: var(--accent); font-weight: bold; }
+  .logo-sub  { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 2px; }
+
+  .header-meta { font-size: 0.72rem; color: var(--muted); text-align: right; line-height: 2; }
+  .header-meta span { color: var(--accent); }
+
+  .page { max-width: 720px; margin: 0 auto; padding: 3rem 2rem; }
+
+  .game-title {
+    font-size: 2.2rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+
+  .game-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 2.5rem;
+  }
+
+  .block {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+  }
+
+  .block-head {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .block-body { padding: 1.25rem; }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 1rem; }
+
+  .step { display: flex; gap: 1rem; align-items: flex-start; }
+
+  .step-num {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-text {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .step-text em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .mode {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+  }
+
+  .mode-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .mode-text {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .rule-box {
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .dares { display: flex; flex-direction: column; gap: 8px; }
+
+  .dare {
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .dare-bullet {
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .winner-box {
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .winner-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .winner-label { color: var(--muted); }
+
+  .winner-val {
+    color: var(--accent);
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0.5rem 0; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-url { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; }
+  .footer-url span { color: var(--accent); }
+
+  .btn-print {
+    background: var(--accent);
+    color: #0e0e14;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 560px) {
+    .modes { grid-template-columns: 1fr; }
+    .game-title { font-size: 1.6rem; }
+    .page { padding: 2rem 1.25rem; }
+    header { padding: 1.25rem; }
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    header, footer, .btn-print { display: none !important; }
+    :root {
+      --bg: #fff;
+      --surface: #f5f5f5;
+      --surface2: #eee;
+      --border: rgba(0,0,0,0.1);
+      --text: #111;
+      --muted: #555;
+      --accent: #4a7c00;
+    }
+    .page { padding: 0; max-width: 100%; }
+    .block { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo-text">ALT CTRL DEL</div>
+    <div class="logo-sub">altctrdel.xyz</div>
+  </div>
+  <div class="header-meta">
+    <span>2–8</span> players &nbsp;·&nbsp; <span>~20</span> min &nbsp;·&nbsp; no app needed
+  </div>
+  <button class="btn-print" onclick="window.print()">Print rules</button>
+</header>
+
+<div class="page">
+
+  <div class="game-title">How to play</div>
+  <div class="game-sub">ALT CTRL DEL · The card game of digital life</div>
+
+  <div class="block">
+    <div class="block-head">What you need</div>
+    <div class="block-body">
+      <div class="chips">
+        <div class="chip">5–10 cards from the deck</div>
+        <div class="chip">2 or more humans</div>
+        <div class="chip">Drinks on the table</div>
+        <div class="chip">Phones face-down. Seriously.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-head">Setup</div>
+    <div class="block-body">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Shuffle the cards. Place them face-down in the center of the table.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Everyone puts their phone face-down on the table. This is not optional.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text"><em>The person who last checked their phone goes first.</em> There's always one.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-head">Each turn</div>
+    <div class="block-body">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">A</div>
+          <div class="step-text">Draw a card. Read the letter and poem out loud — <em>with feeling.</em></div>
+        </div>
+        <div class="step">
+          <div class="step-num">B</div>
+          <div class="step-text">
+            Point at someone and say: <em>"This is you."</em><br>
+            If at least half the table agrees — they take the card.
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">C</div>
+          <div class="step-text">If nobody agrees — <em>you keep the card.</em> The table has spoken.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">D</div>
+          <div class="step-text">Next person clockwise draws. Keep going until all cards are gone.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-head">The one unbreakable rule</div>
+    <div class="block-body">
+      <div class="rule-box">
+        "If your phone lights up and you check it — draw two cards. No negotiations. No exceptions. The table decides what counts."
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-head">End of game</div>
+    <div class="block-body">
+      <div class="winner-box">
+        <div class="winner-row">
+          <div class="winner-label">Who wins?</div>
+          <div class="winner-val">The person with fewest cards</div>
+        </div>
+        <hr class="divider">
+        <div class="winner-row">
+          <div class="winner-label">Who loses?</div>
+          <div class="winner-val">Most cards = most roasted</div>
+        </div>
+        <hr class="divider">
+        <div class="winner-row">
+          <div class="winner-label">What does the loser do?</div>
+          <div class="winner-val">Buys the next round. No debate.</div>
+        </div>
+        <hr class="divider">
+        <div class="winner-row">
+          <div class="winner-label">Tie?</div>
+          <div class="winner-val">Both buy. The bar wins.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-head">Two modes — pick one before you start</div>
+    <div class="block-body">
+      <div class="modes">
+        <div class="mode">
+          <div class="mode-label">Chill mode</div>
+          <div class="mode-text">
+            Most cards = most roasted = buys next round.<br>
+            Laugh, drink, repeat.
+          </div>
+        </div>
+        <div class="mode">
+          <div class="mode-label">Dare mode</div>
+          <div class="mode-text">
+            Each card you hold = one dare from the table.<br>
+            Loser still buys the round.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-head">Sample dares (dare mode)</div>
+    <div class="block-body">
+      <div class="dares">
+        <div class="dare"><span class="dare-bullet">→</span> Tell us your most embarrassing phone moment. No filter.</div>
+        <div class="dare"><span class="dare-bullet">→</span> Show the last 3 photos in your camera roll. Narrate them.</div>
+        <div class="dare"><span class="dare-bullet">→</span> Give your phone to the person on your left for 10 minutes.</div>
+        <div class="dare"><span class="dare-bullet">→</span> Say something true — out loud — about the person across from you.</div>
+        <div class="dare"><span class="dare-bullet">→</span> Do 10 seconds of your best influencer impression.</div>
+        <div class="dare"><span class="dare-bullet">→</span> Order another round. For everyone at the table.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-url">
+    Full alphabet · <span>altctrdel.xyz</span>
+  </div>
+  <div class="footer-url" style="color: var(--muted);">
+    hai-guys.space · print freely · share widely
+  </div>
+</footer>
+
+</body>
+</html>
