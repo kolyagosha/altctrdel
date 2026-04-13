@@ -215,6 +215,16 @@
                 flex-direction: column;
             }
         }
+
+    
+    @media print {
+    @page { size: 148mm 105mm landscape; margin: 0; }
+    #matrix-bg, nav, .share-section, footer, .copy-notification { display: none !important; }
+    body { background: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    main { width: 148mm; height: 105mm; margin: 0; padding: 8mm; border: none; }
+}
+    
+    
     </style>
 </head>
 <body>
@@ -313,7 +323,6 @@ Just pixels and likes, year after year!</div>
 </body>
 
 </html>
-
 
 
 
