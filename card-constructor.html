@@ -63,7 +63,7 @@
   .preview-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
 
   .card-shell {
-    width: min(560px, 100%);
+    width: min(360px, 100%);
     aspect-ratio: 105 / 148;
     border-radius: 10px;
     overflow: hidden;
@@ -156,7 +156,7 @@
     header, .sidebar, .preview-label, .print-info, #resizeHandle { display: none !important; }
     .main { grid-template-columns: 1fr; }
     .preview-area { padding: 0; }
-    .card-shell { width: 105mm; height: 148mm; aspect-ratio: unset; box-shadow: none; border-radius: 4mm; }
+    .card-shell { width: 148mm; height: 105mm; aspect-ratio: unset; box-shadow: none; border-radius: 4mm; }
     #logoWrap { outline: none !important; }
     .card-canvas { overflow: hidden; }
   }
@@ -269,7 +269,7 @@
   </aside>
 
   <section class="preview-area">
-    <div class="preview-label">drag logo freely · resize with green dot · A6 (105×148mm)</div>
+    <div class="preview-label">drag logo freely · resize with green dot · A6 vertical (105×148mm)</div>
 
     <div class="card-shell" id="cardShell">
       <div class="card-canvas" id="cardCanvas">
@@ -295,8 +295,8 @@
     </div>
 
     <div class="print-info">
-      Print on <span>A4 paper</span>, cut to <span>A6 (105×148mm)</span>.<br>
-      4 cards per A4 sheet · any home or office printer.<br>
+      Print on <span>A4 paper</span>, cut to <span>A6 vertical (105×148mm)</span>.<br>
+      2 cards per A4 sheet · any home or office printer.<br>
       Best results: matte photo paper or 200g/m² cardstock.
     </div>
   </section>
@@ -340,8 +340,8 @@ let dragging = false, dragOX = 0, dragOY = 0;
 logoWrap.addEventListener('mousedown', e => {
   if (e.target === resizeHandle) return;
   dragging = true;
-  dragOX = e.clientX - logoWrap.offsetLeft;
-  dragOY = e.clientY - logoWrap.offsetTop;
+  dragOX = e.clientX - cardCanvas.getBoundingClientRect().left - logoX;
+  dragOY = e.clientY - cardCanvas.getBoundingClientRect().top  - logoY;
   logoWrap.classList.add('selected');
   e.preventDefault();
 });
@@ -349,35 +349,24 @@ logoWrap.addEventListener('mousedown', e => {
 logoWrap.addEventListener('touchstart', e => {
   if (e.target === resizeHandle) return;
   dragging = true;
-  dragOX = e.touches[0].clientX - logoWrap.offsetLeft;
-  dragOY = e.touches[0].clientY - logoWrap.offsetTop;
+  dragOX = e.touches[0].clientX - cardCanvas.getBoundingClientRect().left - logoX;
+  dragOY = e.touches[0].clientY - cardCanvas.getBoundingClientRect().top  - logoY;
   logoWrap.classList.add('selected');
 }, { passive: true });
 
 document.addEventListener('mousemove', e => {
   if (!dragging) return;
   const r = cardCanvas.getBoundingClientRect();
-  logoX = Math.min(Math.max(0, e.clientX - r.left - dragOX + logoWrap.offsetLeft), r.width  - logoW);
-  logoY = Math.min(Math.max(0, e.clientY - r.top  - dragOY + logoWrap.offsetTop),  r.height - logoH);
-
-  // simpler: use offsetLeft directly since logoWrap is inside cardCanvas
-  logoX = Math.min(Math.max(0, e.clientX - dragOX - r.left + r.left), r.width - logoW);
-  logoY = Math.min(Math.max(0, e.clientY - dragOY - r.top  + r.top),  r.height - logoH);
-
-  const newX = e.clientX - r.left - (dragOX - logoWrap.offsetLeft);
-  const newY = e.clientY - r.top  - (dragOY - logoWrap.offsetTop);
-  logoX = Math.min(Math.max(0, newX), r.width  - logoW);
-  logoY = Math.min(Math.max(0, newY), r.height - logoH);
+  logoX = Math.min(Math.max(0, e.clientX - r.left - dragOX), r.width  - logoW);
+  logoY = Math.min(Math.max(0, e.clientY - r.top  - dragOY), r.height - logoH);
   setLogoPos();
 });
 
 document.addEventListener('touchmove', e => {
   if (!dragging) return;
-  const r    = cardCanvas.getBoundingClientRect();
-  const newX = e.touches[0].clientX - r.left - (dragOX - logoWrap.offsetLeft);
-  const newY = e.touches[0].clientY - r.top  - (dragOY - logoWrap.offsetTop);
-  logoX = Math.min(Math.max(0, newX), r.width  - logoW);
-  logoY = Math.min(Math.max(0, newY), r.height - logoH);
+  const r = cardCanvas.getBoundingClientRect();
+  logoX = Math.min(Math.max(0, e.touches[0].clientX - r.left - dragOX), r.width  - logoW);
+  logoY = Math.min(Math.max(0, e.touches[0].clientY - r.top  - dragOY), r.height - logoH);
   setLogoPos();
 }, { passive: true });
 
@@ -513,8 +502,8 @@ function drawPattern(bg, txt) {
 /* ─ COLOR SYNC ───────────────────────────── */
 $('bgColor').oninput  = () => { $('bgHex').value  = $('bgColor').value;  updatePreview(); };
 $('txtColor').oninput = () => { $('txtHex').value = $('txtColor').value; updatePreview(); };
-$('bgHex').oninput  = () => { if(/^#[0-9a-fA-F]{6}$/.test($('bgHex').value))  { $('bgColor').value  = $('bgHex').value.toLowerCase();  updatePreview(); } };
-$('txtHex').oninput = () => { if(/^#[0-9a-fA-F]{6}$/.test($('txtHex').value)) { $('txtColor').value = $('txtHex').value.toLowerCase(); updatePreview(); } };
+$('bgHex').oninput  = () => { if(/^#[0-9a-fA-F]{6}$/.test($('bgHex').value))  { $('bgColor').value  = $('bgHex').value;  updatePreview(); } };
+$('txtHex').oninput = () => { if(/^#[0-9a-fA-F]{6}$/.test($('txtHex').value)) { $('txtColor').value = $('txtHex').value; updatePreview(); } };
 $('barName').oninput        = updatePreview;
 $('slogan').oninput         = updatePreview;
 $('nameSize').oninput       = updatePreview;
@@ -572,7 +561,7 @@ function downloadSVG() {
   const pattern = $('patternSelect').value;
   const logoSrc = ($('logoImg').style.display !== 'none') ? $('logoImg').src : null;
 
-  const W = 559, H = 397;
+  const W = 397, H = 559;
   const cardRect = cardCanvas.getBoundingClientRect();
   const scaleX   = W / cardRect.width;
   const scaleY   = H / cardRect.height;
@@ -604,7 +593,7 @@ function downloadSVG() {
 
   const svgOut = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="148mm" height="105mm" viewBox="0 0 ${W} ${H}">
+     width="105mm" height="148mm" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${bg}" rx="8"/>
   ${patEl}
   ${logoEl}
