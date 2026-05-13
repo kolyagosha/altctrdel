@@ -125,17 +125,16 @@
     header, .sidebar, .preview-area, .main { display: none !important; }
     
     /* Говорим принтеру, что бумага - это А4 */
-    @page { size: A4 portrait; margin: 15mm; }
+    @page { size: A4 portrait; margin: 0mm; }
 
     /* Показываем нашу скрытую зону и делаем сетку */
     #printZone {
-      display: grid !important;
-      grid-template-columns: 105mm 105mm;
-      grid-template-rows: 148mm 148mm;
-      gap: 5mm; /* Зазор для разреза */
-      justify-content: center;
-      align-content: center;
-      height: 100vh;
+      display: flex !important;
+      flex-wrap: wrap;
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      align-content: flex-start;
     }
 
     /* Стиль для каждого из четырех клонов */
