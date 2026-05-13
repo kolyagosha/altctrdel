@@ -116,7 +116,7 @@
   input[type="file"] { display: none; }
 
  /* ========================================= */
-  /* МАГИЯ ПЕЧАТИ (4 карточки на А4) - ИСПРАВЛЕНО */
+  /* МАГИЯ ПЕЧАТИ (4 карточки на А4)           */
   /* ========================================= */
   @media print {
     body { background: #fff !important; margin: 0; padding: 0; }
@@ -124,28 +124,28 @@
     /* Прячем весь интерфейс */
     header, .sidebar, .preview-area, .main { display: none !important; }
     
-    /* Убираем поля принтера полностью, чтобы влезло всё! */
-    @page { size: A4 portrait; margin: 0; }
+    /* Говорим принтеру, что бумага - это А4 */
+    @page { size: A4 portrait; margin: 15mm; }
 
-    /* Раскидываем 4 карточки вплотную друг к другу */
+    /* Показываем нашу скрытую зону и делаем сетку */
     #printZone {
-      display: flex !important;
-      flex-wrap: wrap;
-      width: 210mm;
-      height: 297mm;
-      margin: 0;
-      align-content: flex-start;
+      display: grid !important;
+      grid-template-columns: 105mm 105mm;
+      grid-template-rows: 148mm 148mm;
+      gap: 5mm; /* Зазор для разреза */
+      justify-content: center;
+      align-content: center;
+      height: 100vh;
     }
 
-    /* Точные размеры А6 */
+    /* Стиль для каждого из четырех клонов */
     .print-clone {
       width: 105mm !important;
-      height: 148.5mm !important; /* Ровно половина от 297мм */
+      height: 148mm !important;
       position: relative;
       overflow: hidden;
-      box-sizing: border-box; /* Чтобы рамка не ломала размеры */
-      border-right: 0.5px dashed #ccc;
-      border-bottom: 0.5px dashed #ccc;
+      border: 0.5px dashed #ccc; /* Пунктир, чтобы ровно резать */
+      border-radius: 4mm;
       box-shadow: none !important;
     }
     
@@ -153,7 +153,10 @@
     .print-clone .resize-handle { display: none !important; }
     .print-clone.layer-item { outline: none !important; }
   }
-
+</style>
+</head>
+<body>
+    
   
 <!-- СКРЫТАЯ ЗОНА ДЛЯ ПЕЧАТИ -->
 <div id="printZone" style="display: none;"></div>
