@@ -115,19 +115,14 @@
   
   input[type="file"] { display: none; }
 
- /* ========================================= */
+  /* ========================================= */
   /* МАГИЯ ПЕЧАТИ (4 карточки на А4)           */
   /* ========================================= */
   @media print {
     body { background: #fff !important; margin: 0; padding: 0; }
-    
-    /* Прячем весь интерфейс */
     header, .sidebar, .preview-area, .main { display: none !important; }
-    
-    /* Говорим принтеру, что бумага - это А4 */
-    @page { size: A4 portrait; margin: 0mm; }
+    @page { size: A4 portrait; margin: 0; }
 
-    /* Показываем нашу скрытую зону и делаем сетку */
     #printZone {
       display: flex !important;
       flex-wrap: wrap;
@@ -137,26 +132,24 @@
       align-content: flex-start;
     }
 
-    /* Стиль для каждого из четырех клонов */
     .print-clone {
       width: 105mm !important;
-      height: 148mm !important;
+      height: 148.5mm !important;
       position: relative;
       overflow: hidden;
-      border: 0.5px dashed #ccc; /* Пунктир, чтобы ровно резать */
-      border-radius: 4mm;
+      box-sizing: border-box;
+      border-right: 0.5px dashed #ccc;
+      border-bottom: 0.5px dashed #ccc;
       box-shadow: none !important;
     }
     
-    /* Скрываем рамки выделения на печати */
     .print-clone .resize-handle { display: none !important; }
     .print-clone.layer-item { outline: none !important; }
   }
 </style>
 </head>
 <body>
-    
-  
+
 <!-- СКРЫТАЯ ЗОНА ДЛЯ ПЕЧАТИ -->
 <div id="printZone" style="display: none;"></div>
 
@@ -239,9 +232,14 @@
     <hr class="divider">
 
     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <!-- НОВАЯ КНОПКА ПЕЧАТИ -->
       <button class="btn btn-accent" onclick="printCardX4()">Print deck (A4 x4)</button>
-      <button class="btn" onclick="downloadSVG()">↓ Download SVG</button>
+      
+      <!-- ДВЕ КНОПКИ ДЛЯ СОХРАНЕНИЯ -->
+      <div class="flex-row">
+        <button class="btn" style="flex:1" onclick="downloadSVG()">↓ SVG</button>
+        <button class="btn" style="flex:1" onclick="downloadPNG()">↓ PNG</button>
+      </div>
+      
       <button class="btn" style="border:none; text-decoration:underline;" onclick="location.reload()">Reset All</button>
     </div>
   </aside>
@@ -253,7 +251,6 @@
       <div class="card-canvas" id="cardCanvas">
         <svg class="card-pattern-svg" id="patternSvg" viewBox="0 0 600 425" preserveAspectRatio="xMidYMid slice"></svg>
         
-        <!-- СЛОИ БУДУТ ДОБАВЛЯТЬСЯ СЮДА -->
         <div id="layersContainer" style="position: absolute; inset: 0; z-index: 10;"></div>
 
         <div class="card-bottom">
@@ -271,14 +268,12 @@
 <script>
 const $ = id => document.getElementById(id);
 
-// --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ДЛЯ СЛОЕВ ---
 let zIndexCounter = 100;
 let activeLayer = null;
 
 const canvas = $('layersContainer');
 const cardCanvas = $('cardCanvas');
 
-// --- ОБНОВЛЕНИЕ ФОНА И ТЕКСТА ---
 function updateBackground() {
   const bg = $('bgColor').value;
   const txt = $('txtColor').value;
@@ -301,7 +296,6 @@ $('barName').oninput = updateBackground;
 $('slogan').oninput = updateBackground;
 $('patternSelect').onchange = updateBackground;
 
-// --- ЛОГИКА СЛОЕВ (ДВИЖОК MINI-PS) ---
 
 function createLayerWrap() {
   const wrap = document.createElement('div');
@@ -366,7 +360,6 @@ function addTextLayer() {
   $('newTextVal').value = '';
 }
 
-// --- DRAG & RESIZE ENGINE ---
 function makeDraggableAndResizable(wrap, handle) {
   let isDragging = false, isResizing = false;
   let startX, startY, startW, startH, startLeft, startTop;
@@ -428,7 +421,6 @@ cardCanvas.addEventListener('mousedown', e => {
   }
 });
 
-// --- ПАНЕЛЬ УПРАВЛЕНИЯ СЛОЯМИ ---
 function selectLayer(layer) {
   if (activeLayer) activeLayer.classList.remove('selected');
   activeLayer = layer;
@@ -466,7 +458,6 @@ function deleteLayer() {
   selectLayer(null);
 }
 
-// --- ГЕНЕРАТОР ПАТТЕРНОВ ---
 function drawPattern(bg, txt) {
   const p = $('patternSelect').value;
   const svg = $('patternSvg');
@@ -502,8 +493,9 @@ function drawPattern(bg, txt) {
   svg.innerHTML = out;
 }
 
-// --- СБОРКА В SVG ---
-function downloadSVG() {
+// --- ЯДРО ГЕНЕРАЦИИ SVG-КОДА ---
+// Вынесли в отдельную функцию, чтобы и SVG и PNG брали отсюда одни и те же данные
+function getGeneratedSvgString() {
   selectLayer(null);
 
   const bg = $('bgColor').value;
@@ -545,7 +537,7 @@ function downloadSVG() {
   const nameEl = name ? `<text x="${W/2}" y="${H-50}" text-anchor="middle" font-size="26" font-weight="bold" fill="${txt}" font-family="'Courier New',monospace" letter-spacing="2">${name}</text>` : '';
   const sloganEl = slogan ? `<text x="${W/2}" y="${H-28}" text-anchor="middle" font-size="13" fill="${txt}" font-family="'Courier New',monospace" opacity="0.65">${slogan}</text>` : '';
 
-  const svgOut = `<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
      width="105mm" height="148mm" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${bg}" rx="8"/>
@@ -557,7 +549,12 @@ function downloadSVG() {
   <text x="16" y="20" font-size="8" fill="${txt}" opacity="0.12" font-family="'Courier New',monospace" letter-spacing="2">ALT CTRL DEL</text>
   <text x="${W-16}" y="20" text-anchor="end" font-size="8" fill="${txt}" opacity="0.12" font-family="'Courier New',monospace" letter-spacing="2">ALT CTRL DEL</text>
 </svg>`;
+}
 
+// --- СКАЧАТЬ КАК SVG ---
+function downloadSVG() {
+  const svgOut = getGeneratedSvgString();
+  const name = $('barName').value || 'Your Bar';
   const blob = new Blob([svgOut], { type: 'image/svg+xml' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -567,23 +564,55 @@ function downloadSVG() {
   URL.revokeObjectURL(url);
 }
 
-// --- МАГИЯ ПЕЧАТИ (4 карточки на А4) ---
+// --- СКАЧАТЬ КАК PNG (High-Res) ---
+function downloadPNG() {
+  const svgOut = getGeneratedSvgString();
+  const name = $('barName').value || 'Your Bar';
+  
+  // Устанавливаем жесткий размер холста 1240x1748 px (это А6 при 300 DPI)
+  const W = 1240;
+  const H = 1748;
+
+  const canvasObj = document.createElement('canvas');
+  canvasObj.width = W;
+  canvasObj.height = H;
+  const ctx = canvasObj.getContext('2d');
+
+  const img = new Image();
+  // Кодируем SVG строку, чтобы ее съел тег <img>
+  const blob = new Blob([svgOut], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+
+  img.onload = function() {
+    // Рисуем отрендеренный браузером SVG на нашем холсте, растягивая на все 300 DPI
+    ctx.drawImage(img, 0, 0, W, H);
+    URL.revokeObjectURL(url);
+    
+    // Превращаем холст в сочный PNG
+    const pngUrl = canvasObj.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = pngUrl;
+    a.download = `altctrdel-ps-${name.toLowerCase().replace(/\s+/g,'-')}.png`;
+    a.click();
+  };
+  img.src = url;
+}
+
+// --- ПЕЧАТЬ 4 НА А4 ---
 function printCardX4() {
-  selectLayer(null); // Снимаем выделение со слоев
+  selectLayer(null); 
   
   const printZone = $('printZone');
-  printZone.innerHTML = ''; // Чистим зону перед каждой печатью
+  printZone.innerHTML = ''; 
   
   const card = $('cardShell');
   
-  // Клонируем нашу готовую рубашку ровно 4 раза
   for(let i = 0; i < 4; i++) {
     let clone = card.cloneNode(true); 
     clone.className = 'print-clone';
     printZone.appendChild(clone);
   }
   
-  // Вызываем системное окно печати
   window.print();
 }
 
