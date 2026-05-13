@@ -115,17 +115,50 @@
   
   input[type="file"] { display: none; }
 
+  /* ========================================= */
+  /* МАГИЯ ПЕЧАТИ (4 карточки на А4)           */
+  /* ========================================= */
   @media print {
-    body { background: #fff; color: #111; }
-    header, .sidebar, .preview-label, .print-info, .resize-handle, .layer-item.selected { outline: none !important; }
-    .main { grid-template-columns: 1fr; }
-    .preview-area { padding: 0; }
-    .card-shell { width: 105mm; height: 148mm; box-shadow: none; border-radius: 4mm; }
+    body { background: #fff !important; margin: 0; padding: 0; }
+    
+    /* Прячем весь интерфейс */
+    header, .sidebar, .preview-area, .main { display: none !important; }
+    
+    /* Говорим принтеру, что бумага - это А4 */
     @page { size: A4 portrait; margin: 15mm; }
+
+    /* Показываем нашу скрытую зону и делаем сетку */
+    #printZone {
+      display: grid !important;
+      grid-template-columns: 105mm 105mm;
+      grid-template-rows: 148mm 148mm;
+      gap: 5mm; /* Зазор для разреза */
+      justify-content: center;
+      align-content: center;
+      height: 100vh;
+    }
+
+    /* Стиль для каждого из четырех клонов */
+    .print-clone {
+      width: 105mm !important;
+      height: 148mm !important;
+      position: relative;
+      overflow: hidden;
+      border: 0.5px dashed #ccc; /* Пунктир, чтобы ровно резать */
+      border-radius: 4mm;
+      box-shadow: none !important;
+    }
+    
+    /* Скрываем рамки выделения на печати */
+    .print-clone .resize-handle { display: none !important; }
+    .print-clone.layer-item { outline: none !important; }
   }
 </style>
 </head>
 <body>
+
+<!-- СКРЫТАЯ ЗОНА ДЛЯ ПЕЧАТИ -->
+<div id="printZone" style="display: none;"></div>
 
 <header>
   <div>
@@ -179,7 +212,7 @@
 
     <hr class="divider">
 
-    <!-- СТАРЫЕ ДОБРЫЕ НАСТРОЙКИ ФОНА -->
+    <!-- НАСТРОЙКИ ФОНА -->
     <div>
       <div class="section-label">Background & Bar Info</div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
@@ -206,7 +239,8 @@
     <hr class="divider">
 
     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <button class="btn btn-accent" onclick="window.print()">Print card (A6)</button>
+      <!-- НОВАЯ КНОПКА ПЕЧАТИ -->
+      <button class="btn btn-accent" onclick="printCardX4()">Print deck (A4 x4)</button>
       <button class="btn" onclick="downloadSVG()">↓ Download SVG</button>
       <button class="btn" style="border:none; text-decoration:underline;" onclick="location.reload()">Reset All</button>
     </div>
@@ -299,7 +333,6 @@ $('imgUpload').onchange = function(e) {
       wrap.dataset.type = 'image';
       wrap.dataset.src = ev.target.result;
       
-      // Вычисляем размер чтобы влезло
       const ratio = img.naturalHeight / img.naturalWidth;
       let w = 150;
       let h = w * ratio;
@@ -313,7 +346,7 @@ $('imgUpload').onchange = function(e) {
     img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
-  this.value = ''; // сброс инпута
+  this.value = ''; 
 };
 
 function addTextLayer() {
@@ -326,7 +359,6 @@ function addTextLayer() {
   const txtEl = document.createElement('div');
   txtEl.className = 'text-content';
   txtEl.textContent = textVal;
-  // Размер шрифта будет зависеть от высоты обертки, эмулируем SVG поведение
   txtEl.style.fontSize = '24px'; 
   txtEl.style.color = $('txtColor').value;
   
@@ -340,7 +372,7 @@ function makeDraggableAndResizable(wrap, handle) {
   let startX, startY, startW, startH, startLeft, startTop;
 
   wrap.addEventListener('mousedown', e => {
-    if (e.target === handle) return; // Ресайз обрабатывается отдельно
+    if (e.target === handle) return; 
     selectLayer(wrap);
     isDragging = true;
     startX = e.clientX; startY = e.clientY;
@@ -371,20 +403,16 @@ function makeDraggableAndResizable(wrap, handle) {
       const dy = e.clientY - startY;
       
       if (wrap.dataset.type === 'image') {
-        // Пропорциональный ресайз для картинок
         const ratio = startH / startW;
         let newW = startW + dx;
         if (newW < 20) newW = 20;
         wrap.style.width = newW + 'px';
         wrap.style.height = (newW * ratio) + 'px';
       } else {
-        // Свободный ресайз для текста
         let newW = Math.max(30, startW + dx);
         let newH = Math.max(20, startH + dy);
         wrap.style.width = newW + 'px';
         wrap.style.height = newH + 'px';
-        
-        // Подгоняем размер шрифта под контейнер (грубая аппроксимация)
         const txtEl = wrap.querySelector('.text-content');
         if(txtEl) txtEl.style.fontSize = (newH * 0.7) + 'px';
       }
@@ -394,7 +422,6 @@ function makeDraggableAndResizable(wrap, handle) {
   document.addEventListener('mouseup', () => { isDragging = false; isResizing = false; });
 }
 
-// Снятие выделения по клику на пустой холст
 cardCanvas.addEventListener('mousedown', e => {
   if (e.target === cardCanvas || e.target.id === 'layersContainer' || e.target.tagName === 'svg') {
     selectLayer(null);
@@ -408,8 +435,6 @@ function selectLayer(layer) {
   if (activeLayer) {
     activeLayer.classList.add('selected');
     $('layerControls').classList.add('active');
-    
-    // Синхронизируем UI
     $('layerOpacity').value = activeLayer.style.opacity || 1;
     $('opVal').textContent = Math.round($('layerOpacity').value * 100);
     $('layerBlend').value = activeLayer.style.mixBlendMode || 'normal';
@@ -441,7 +466,7 @@ function deleteLayer() {
   selectLayer(null);
 }
 
-// --- ГЕНЕРАТОР ПАТТЕРНОВ (Оптимизирован) ---
+// --- ГЕНЕРАТОР ПАТТЕРНОВ ---
 function drawPattern(bg, txt) {
   const p = $('patternSelect').value;
   const svg = $('patternSvg');
@@ -477,10 +502,9 @@ function drawPattern(bg, txt) {
   svg.innerHTML = out;
 }
 
-
-// --- СБОРКА В SVG (С УЧЕТОМ СЛОЕВ) ---
+// --- СБОРКА В SVG ---
 function downloadSVG() {
-  selectLayer(null); // Снимаем выделение чтобы убрать рамки
+  selectLayer(null);
 
   const bg = $('bgColor').value;
   const txt = $('txtColor').value;
@@ -492,12 +516,9 @@ function downloadSVG() {
   const scaleX = W / cardRect.width;
   const scaleY = H / cardRect.height;
 
-  // Забираем паттерн (уже отрендеренный в DOM)
   const patEl = $('patternSvg').innerHTML;
 
-  // Собираем слои
   let layersSVG = '';
-  // Сортируем элементы по z-index для правильного наложения в SVG
   const layers = Array.from(canvas.querySelectorAll('.layer-item')).sort((a,b) => {
       return (parseInt(a.style.zIndex)||0) - (parseInt(b.style.zIndex)||0);
   });
@@ -517,7 +538,6 @@ function downloadSVG() {
     } else if (layer.dataset.type === 'text') {
       const textVal = layer.querySelector('.text-content').textContent;
       const fs = parseFloat(layer.querySelector('.text-content').style.fontSize) * scaleY;
-      // В SVG текст рендерится от baseline, поэтому добавляем смещение Y
       layersSVG += `<text x="${lx}" y="${ly + fs*0.8}" font-size="${fs}" font-family="'Courier New',monospace" fill="${txt}" ${styleAttr}>${textVal}</text>\n`;
     }
   });
@@ -545,6 +565,26 @@ function downloadSVG() {
   a.download = `altctrdel-ps-${name.toLowerCase().replace(/\s+/g,'-')}.svg`;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+// --- МАГИЯ ПЕЧАТИ (4 карточки на А4) ---
+function printCardX4() {
+  selectLayer(null); // Снимаем выделение со слоев
+  
+  const printZone = $('printZone');
+  printZone.innerHTML = ''; // Чистим зону перед каждой печатью
+  
+  const card = $('cardShell');
+  
+  // Клонируем нашу готовую рубашку ровно 4 раза
+  for(let i = 0; i < 4; i++) {
+    let clone = card.cloneNode(true); 
+    clone.className = 'print-clone';
+    printZone.appendChild(clone);
+  }
+  
+  // Вызываем системное окно печати
+  window.print();
 }
 
 // Init
