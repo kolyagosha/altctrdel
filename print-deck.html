@@ -65,8 +65,8 @@
         .footer-link { color: #0f0; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s; }
         .footer-link:hover { border-bottom: 1px solid #0f0; }
 
-        /* ========================================= */
-        /* ЛОГИКА ПЕЧАТИ (6 листов А4 Альбомная)     */
+       /* ========================================= */
+        /* ЛОГИКА ПЕЧАТИ (6 листов А4 ВЕРТИКАЛЬНАЯ)  */
         /* ========================================= */
         #printZone { display: none; }
 
@@ -74,7 +74,8 @@
             body { background: #fff !important; margin: 0; padding: 0; }
             #matrix-bg, .container, header, footer { display: none !important; }
             
-            @page { size: A4 landscape; margin: 0; }
+            /* Делаем лист вертикальным, как у рубашек! */
+            @page { size: A4 portrait; margin: 0; }
 
             #printZone {
                 display: block !important;
@@ -82,29 +83,47 @@
             }
 
             .print-page {
-                display: flex; flex-wrap: wrap; align-content: flex-start;
-                width: 297mm; height: 210mm; /* A4 Landscape */
+                display: grid;
+                grid-template-columns: 105mm 105mm;
+                grid-template-rows: 148.5mm 148.5mm;
+                width: 210mm; 
+                height: 297mm;
                 page-break-after: always;
+                justify-content: center;
+                align-content: center;
                 margin: 0; padding: 0;
             }
 
-            /* Каждая карточка ровно 1/4 листа */
+            /* Каждая карточка 105х148.5 мм (ВЕРТИКАЛЬНАЯ) */
             .print-card {
-                width: 148.5mm !important; height: 105mm !important;
-                box-sizing: border-box; background: #000 !important; color: #0f0 !important;
-                border-right: 0.5px dashed #ccc; border-bottom: 0.5px dashed #ccc;
-                display: flex; flex-direction: row; align-items: center; justify-content: space-between;
-                padding: 6mm 8mm !important; gap: 10mm;
+                width: 105mm !important; 
+                height: 148.5mm !important;
+                box-sizing: border-box; 
+                background: #000 !important; 
+                color: #0f0 !important;
+                border-right: 0.5px dashed #ccc; 
+                border-bottom: 0.5px dashed #ccc;
+                display: flex; 
+                flex-direction: column; /* Картинка сверху, текст снизу */
+                align-items: center; 
+                padding: 6mm !important;
+                gap: 5mm;
                 -webkit-print-color-adjust: exact;
+                overflow: hidden;
             }
 
-            .letter-side { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-            .letter-title { font-size: 2.8em !important; margin-bottom: 5px !important; text-align: center; font-weight: bold; }
-            .letter-image { max-width: 100% !important; max-height: 50mm !important; object-fit: cover; border: 1px solid #0f0; }
+            .letter-side { width: 100%; text-align: center; }
+            .letter-title { font-size: 3em !important; margin-bottom: 2px !important; font-weight: bold; line-height: 1; }
+            .letter-image { width: 100% !important; height: 50mm !important; object-fit: cover; border: 1px solid #0f0; }
             
-            .poem-side { flex: 1.2; font-size: 11pt !important; line-height: 1.5 !important; text-align: left; }
+            .poem-side { 
+                width: 100%; 
+                font-size: 9pt !important; /* Уменьшил шрифт, чтобы длинный стих влез */
+                line-height: 1.4 !important; 
+                text-align: center; 
+                white-space: pre-wrap; /* Это заставит браузер понимать переносы строк из JS */
+            }
         }
-
         @media (max-width: 900px) {
             .actions-grid { grid-template-columns: 1fr; }
         }
