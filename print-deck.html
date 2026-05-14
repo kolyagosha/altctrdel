@@ -221,7 +221,7 @@
                         <div class="letter-title">${card.letter}</div>
                         <img src="${card.img}" alt="${card.letter}" class="letter-image" onerror="this.style.display='none'">
                     </div>
-                    <div class="poem-side">${card.poem.replace(/\n/g, '<br>')}</div>
+                    <div class="poem-side">${card.poem}</div>
                 `;
                 
                 currentPage.appendChild(cardEl);
