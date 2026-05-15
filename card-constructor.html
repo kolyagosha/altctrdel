@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
- <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ETZXXHQW9"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -565,14 +565,6 @@ function getGeneratedSvgString() {
 
 // --- СКАЧАТЬ КАК SVG ---
 function downloadSVG() {
-    // Отправляем сигнал в Гугл Аналитику перед скачиванием
-            if (typeof gtag === 'function') {
-                gtag('event', 'download_custom_joker', {
-                    'event_category': 'engagement',
-                    'event_label': 'Custom Joker Downloaded'
-                });
-            }
-  
   const svgOut = getGeneratedSvgString();
   const name = $('barName').value || 'Your Bar';
   const blob = new Blob([svgOut], { type: 'image/svg+xml' });
@@ -586,14 +578,6 @@ function downloadSVG() {
 
 // --- СКАЧАТЬ КАК PNG (High-Res) ---
 function downloadPNG() {
-      // Отправляем сигнал в Гугл Аналитику перед скачиванием
-            if (typeof gtag === 'function') {
-                gtag('event', 'download_custom_joker', {
-                    'event_category': 'engagement',
-                    'event_label': 'Custom Joker Downloaded'
-                });
-            }
-  
   const svgOut = getGeneratedSvgString();
   const name = $('barName').value || 'Your Bar';
   
@@ -639,7 +623,6 @@ function printCardX4() {
     let clone = card.cloneNode(true); 
     clone.className = 'print-clone';
     printZone.appendChild(clone);
-
   }
   
   window.print();
