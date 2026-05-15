@@ -629,10 +629,6 @@ function downloadPNG() {
 // --- ПЕЧАТЬ 4 НА А4 ---
 function printCardX4() {
   selectLayer(null); 
-
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
- 
   
   const printZone = $('printZone');
   printZone.innerHTML = ''; 
@@ -643,6 +639,7 @@ print-color-adjust: exact !important;
     let clone = card.cloneNode(true); 
     clone.className = 'print-clone';
     printZone.appendChild(clone);
+
   }
   
   window.print();
