@@ -211,9 +211,20 @@
             { letter: 'XYZ', img: 'images/XYZ.jpg', poem: `"X", "Y", "Z" our journey's last page, <br> A new kind of future we'll set on this stage! <br> No rules, no old boxes, just code and delight, <br> Our book's on the internet, shining so bright!` }        ];
 
         function printFullDeck() {
+
+               // Отправляем сигнал в Гугл Аналитику
+            if (typeof gtag === 'function') {
+                gtag('event', 'print_full_deck', {
+                    'event_category': 'engagement',
+                    'event_label': 'Printed 24 Cards'
+                });
+            }
+
             const zone = document.getElementById('printZone');
             zone.innerHTML = ''; // Очищаем на всякий случай
+            // ... дальше идет старый код генерации листов ...
 
+              
             let currentPage = null;
 
             cardsData.forEach((card, index) => {
